@@ -24,4 +24,24 @@ export default class PubSub {
     // We know we've got an array for this event, so push our callback in there with no fuss
     return this.events[event].push(callback);
   }
+
+  /**
+   * If the passed event has callbacks attached to it, loop through each one
+   * and call it 
+   *
+   * @param {string} event
+   * @param {object} [data={}]
+   * @returns {array} New array with processed data by each callback or empty array if no events exist
+   * @memberof PubSub
+   */
+
+  publish(event, data = {}) {
+    // If there is no event to publish it return empty array
+    if (!this.events.hasOwnProperty(event)) {
+      return [];
+    }
+
+    // Get each subscription and call its callback with the passed data
+    return this.events[event].map(callback => callback(data));
+  }
 }
