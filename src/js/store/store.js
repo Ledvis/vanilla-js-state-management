@@ -1,15 +1,22 @@
 import PubSub from '../lib/pubsub.js';
 
+/**
+ * @description Creates a reactive store instance
+ * @export
+ * @class Store
+ */
 export default class Store {
+  /**
+   * @param {Object} params - store config
+   * @param {Object.<string, any>} params.state - store initial state
+   * @param {Object.<string, any>} params.actions - store actions methods
+   * @param {Object.<string, any>} params.mutations - store mutations methods
+   */
   constructor(params) {
     const self = this;
-
-    // Add some default objects to hold our actions, mutations and state
-    this.state = {};
-    this.mutations = {};
-    this.actions = {};
-
-    // Attach PubSub module as an `events` element
+    /**
+     * @property {Object} events - PubSub instance
+     */
     this.events = new PubSub();
 
     if (params.hasOwnProperty('actions')) {
@@ -20,9 +27,18 @@ export default class Store {
       this.mutations = params.mutations;
     }
 
+    /**
+     * @property {Object} make state reactive via Proxy API
+     */
     this.state = new Proxy((params.state || {}), {
-      set: function(state, key, value) {
-        // Set the value as we would do normally
+      /**
+       * @description Proxy set trap
+       * @param {Object} state
+       * @param {string} key - state prop
+       * @param {*} value - state value
+       * @returns {boolean}
+       */
+      set(state, key, value) {
         state[key] = value;
 
         console.log(`stateChange ${key}: ${value}`);
@@ -41,6 +57,13 @@ export default class Store {
     });
   }
 
+  /**
+   * @description fire action from store.actions
+   * @param {string} actionKey - action type
+   * @param {*} payload
+   * @returns {boolean}
+   * @memberof Store
+   */
   dispatch(actionKey, payload) {
     if (typeof this.actions[actionKey] !== 'function') {
       console.error(`Action ${actionKey} doesn't exist`);
@@ -58,6 +81,13 @@ export default class Store {
     return true;
   }
 
+  /**
+   * @description fire mutation from store.mutations
+   * @param {string} mutationKey - mutation type
+   * @param {*} payload
+   * @returns {boolean}
+   * @memberof Store
+   */
   commit(mutationKey, payload) {
     if (typeof this.mutations[mutationKey] !== 'function') {
       console.error(`Action ${mutationKey} doesn't exist`);

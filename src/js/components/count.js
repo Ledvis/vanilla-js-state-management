@@ -9,6 +9,7 @@ export default new class Count extends Component {
     })
   }
 
+  // @ts-ignore
   render() {
     const suffix = store.state.items.length !== 1 ? 's' : '';
     const emoji = store.state.items.length > 0 ? '🙌' : '😢';

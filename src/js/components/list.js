@@ -3,18 +3,13 @@ import store from '../store/index.js';
 
 export default new class List extends Component {
   constructor() {
-    // Pass our store instance and the HTML element up to the parent Component
     super({
       element: document.querySelector('.js-items'),
       store
     })
-
-    /**
-     * React to state changes and render the component's HTML
-     *
-     * @returns {void}
-     */
   }
+  
+  // @ts-ignore
   render() {
     if (store.state.items.length === 0) {
       this._element.innerHTML = `<p class="no-items">You've done nothing yet 😢</p>`

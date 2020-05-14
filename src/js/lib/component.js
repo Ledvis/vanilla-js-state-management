@@ -1,15 +1,21 @@
 import Store from '../store/store.js';
 
+/**
+ * @description Creates an instance of Component.
+ * @export
+ * @class Component
+ */
 export default class Component {
+  /**
+   * @param {*} [props={}]
+   * @memberof Component
+   */
   constructor(props = {}) {
     // Store the HTML element to attach the render to it if set
     if (props.hasOwnProperty('element')) {
       this._element = props.element;
     }
 
-    // We're setting a render function as the one set by whatever inherits this base
-    // class or setting it to an empty by default. This is so nothing breaks if someone
-    // forgets to set it.
     this.render = this.render || function() {};
 
     if (props.store instanceof Store) {

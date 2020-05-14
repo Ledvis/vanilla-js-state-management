@@ -9,6 +9,7 @@ export default new class status extends Component {
     })
   }
 
+  // @ts-ignore
   render() {
     const suffix = store.state.items !== 1 ? 's' : '';
 
