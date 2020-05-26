@@ -8,6 +8,24 @@ import store from './store/index.js';
 import list from './components/list.js';
 import status from './components/status.js';
 import count from './components/count.js';
+import Router from './lib/router.js';
+
+const router = new Router({
+  mode: 'history',
+  root: '/'
+});
+
+router
+  .add('/', () => {
+    alert('this is home page');
+  })
+  .add('/about/', () => {
+    alert('welcome to about page');
+  })
+  .add('/contacts/', () => {
+    alert('welcome to contacts page');
+  })
+  .remove('/about/');
 
 const formElement = document.querySelector('.js-form');
 /** @type {HTMLInputElement} */
